@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouton On/Off</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 100px; /* Augmenté */
+            height: 60px; /* Augmenté */
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #f44336; /* Rouge pour OFF */
+            transition: 0.4s;
+            border-radius: 30px; /* Ajusté */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: attr(data-state);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px; /* Augmenté */
+            width: 50px; /* Augmenté */
+            left: 5px; /* Ajusté */
+            bottom: 5px; /* Ajusté */
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 24px; /* Augmenté */
+            font-weight: bold;
+            color: #f44336; /* Rouge pour OFF */
+        }
+
+        input:checked + .slider {
+            background-color: #4caf50; /* Vert pour ON */
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(40px); /* Ajusté */
+            color: #4caf50; /* Vert pour ON */
+        }
+
+        /* Suppression du contour bleu */
+        .switch:focus .slider {
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <label class="switch">
+            <input type="checkbox" id="toggle">
+            <span class="slider" data-state="🖕"></span>
+        </label>
+    </div>
+
+    <script>
+        document.getElementById('toggle').addEventListener('change', function() {
+            const slider = document.querySelector('.slider');
+            if (this.checked) {
+                slider.setAttribute('data-state', '👍');
+            } else {
+                slider.setAttribute('data-state', '🖕');
+            }
+        });
+    </script>
+</body>
+</html>
