@@ -15,11 +15,15 @@
             font-family: Arial, sans-serif;
         }
 
+        .hidden {
+            display: none;
+        }
+
         .switch {
             position: relative;
             display: inline-block;
-            width: 100px; /* Augmenté */
-            height: 60px; /* Augmenté */
+            width: 100px;
+            height: 60px;
         }
 
         .switch input {
@@ -33,9 +37,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #f44336; /* Rouge pour OFF */
+            background-color: #f44336;
             transition: 0.4s;
-            border-radius: 30px; /* Ajusté */
+            border-radius: 30px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
 
@@ -45,51 +49,111 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 50px; /* Augmenté */
-            width: 50px; /* Augmenté */
-            left: 5px; /* Ajusté */
-            bottom: 5px; /* Ajusté */
+            height: 50px;
+            width: 50px;
+            left: 5px;
+            bottom: 5px;
             background-color: white;
             transition: 0.4s;
             border-radius: 50%;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            font-size: 24px; /* Augmenté */
+            font-size: 24px;
             font-weight: bold;
-            color: #f44336; /* Rouge pour OFF */
+            color: #f44336;
         }
 
         input:checked + .slider {
-            background-color: #4caf50; /* Vert pour ON */
+            background-color: #4caf50;
         }
 
         input:checked + .slider:before {
-            transform: translateX(40px); /* Ajusté */
-            color: #4caf50; /* Vert pour ON */
+            transform: translateX(40px);
+            color: #4caf50;
         }
 
-        /* Suppression du contour bleu */
         .switch:focus .slider {
             outline: none;
             box-shadow: none;
         }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label {
+            margin: 10px 0 5px;
+            font-size: 18px;
+        }
+
+        .form-container input {
+            margin: 5px 0 15px;
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
-    <div>
+    <div class="form-container" id="formContainer">
+        <label for="onState">Texte/Symbole pour ON :</label>
+        <input type="text" id="onState" value="On">
+        <label for="offState">Texte/Symbole pour OFF :</label>
+        <input type="text" id="offState" value="Off">
+        <button id="submitBtn">Valider</button>
+    </div>
+
+    <div class="hidden" id="switchContainer">
         <label class="switch">
             <input type="checkbox" id="toggle">
-            <span class="slider" data-state="🖕"></span>
+            <span class="slider" data-state="Off"></span>
         </label>
     </div>
 
     <script>
-        document.getElementById('toggle').addEventListener('change', function() {
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const onState = document.getElementById('onState').value;
+            const offState = document.getElementById('offState').value;
             const slider = document.querySelector('.slider');
-            if (this.checked) {
-                slider.setAttribute('data-state', '👍');
-            } else {
-                slider.setAttribute('data-state', '🖕');
-            }
+
+            // Initialiser l'état avec le texte/symbole OFF
+            slider.setAttribute('data-state', offState);
+
+            // Ajouter des écouteurs d'événements pour changer l'état
+            document.getElementById('toggle').addEventListener('change', function() {
+                if (this.checked) {
+                    slider.setAttribute('data-state', onState);
+                } else {
+                    slider.setAttribute('data-state', offState);
+                }
+            });
+
+            // Masquer le formulaire et afficher le switch
+            document.getElementById('formContainer').remove();
+            document.getElementById('switchContainer').classList.remove('hidden');
         });
     </script>
 </body>
